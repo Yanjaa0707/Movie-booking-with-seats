@@ -2,6 +2,9 @@
 Movie Theatre Booking System with Seats
 """
 #ask for name and number
+print("*******************************")
+print("Welcome to YK Movie Theater!")
+print("*******************************")
 name = input("What is your name? ")
 number = None
 #checks if input is a number
@@ -49,7 +52,7 @@ def booking():
 times = ['a. Morning', 'b. Afternoon', 'c. Evening']
 def booking_t():        
     global times
-
+    #prints time
     for time in times:
         print (time)
 
@@ -74,36 +77,42 @@ def booking_t():
                 print('Invalid choice')
     return chosen_time
 
-
-movie_seats = (([3],[],[],),([],[],[],),([],[],[],))
+#seats
+movie_seats = (([],[],[]),([],[],[]),([],[],[]))
 #for morning lucifer
 def movie_seat(chosen_movie, chosen_time): 
+    booked_seats=[]
     while True:  
-        #print seats
+        movie_index = movies.index(chosen_movie)
+        time_index = times.index(chosen_time)
+        #print seats and check if seat is already booked
         seats_txt = ''
         for seat_n in range(1,11):
-            if seat_n in movie_seats[movies.index(chosen_movie)][times.index(chosen_time)]:
+            if seat_n in movie_seats[movie_index][time_index]:
                 seats_txt = seats_txt + ' X'
             else:
                 seats_txt = seats_txt + f' {seat_n}'
 
         print (seats_txt)
-
+        #asks for seat and appends it into booked_seats
         chosen_seat = None
         while chosen_seat not in range(1,11):
+            #Validate that while not chosen_seat.isnumber():  
             chosen_seat = int(input("What seat do you want? "))
-            if chosen_seat in movie_seats[movies.index(chosen_movie)][times.index(chosen_time)]:
+            
+            if chosen_seat in movie_seats[movie_index][time_index]:
                 print("Seat has been chosen, Please choose a different seat.")
             else:
-                movie_seats[movies.index(chosen_movie)][times.index(chosen_time)].append(chosen_seat)
+                movie_seats[movie_index][time_index].append(chosen_seat)
+                booked_seats.append(chosen_seat)
+
+        #if the user wants it reruns the program
         choose_again = None
-        choose_again = input("Do you want to book a seat again?(yes/no): ")
-        if choose_again == 'yes':
-            print(seats_txt)
-            chosen_seat = int(input("What seat do you want? ")) 
-        else:
+        choose_again = input("Do you want to book a seat again?(y/n): ")
+        if choose_again == 'n':
+            print("Thanks")
             break
-    return chosen_seat
+    return booked_seats
 
 #confirmation function
 def confirmation(chosen_movie, chosen_time):
@@ -118,7 +127,7 @@ while True:
 
 
     #confirm information
-    print("So, ", name.title(), "and your phone number ", number, ". You have chosen ", chosen_movie, "at ", chosen_time, ". Your seat is at", chosen_seat)
+    print("Is your name ", name.title(), "and your phone number ", number, ". Have you chosen ", chosen_movie, "at ", chosen_time, ". Is your seat at", chosen_seat)
     answer = None
     while answer not in ('y','n'):
         answer = (input("Is this information correct (y/n)? ")).lower()
@@ -126,14 +135,5 @@ while True:
     if answer=='y':   
         print("Final Information entered")     
         print("---------------------------------------")
-        print("So, ", name.title(), "and your phone number ", number, ". You have chosen ", chosen_movie, "at ", chosen_time, ". Your seat is at", chosen_seat)
+        print("So, your name is", name.title(), "and your phone number ", number, ". You have chosen ", chosen_movie, "at ", chosen_time, ". Your seat is at", chosen_seat)
         break
-
-    """ if answer == 'yes':
-        print('Okay, have a nice day!')
-        break
-    else:
-        choice_rebook = input('There seems to be an error, do you want to rebook?(yes/no) : ')
-        if choice_rebook == 'no':
-            print('Hope to see you again!')
-            break """
